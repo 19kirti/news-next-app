@@ -34,22 +34,28 @@ export class News extends Component {
     }
 
     async componentDidMount(){
+        this.props.setProgress(10);
         let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=ead939c27d884beb8d2c3337777775a0&page=1&pageSize=${this.props.pageSize}`;
         this.setState({loading:true});
         let data = await fetch(url);
+        this.props.setProgress(30);
         let parsedData = await data.json();
+        this.props.setProgress(50);
         console.log(parsedData);
         this.setState({articles: parsedData.articles,
           loading: false
         });
+        this.props.setProgress(100);
     }
 
     handlePrevClick = async () => {
-
+      this.props.setProgress(10);
       let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=ead939c27d884beb8d2c3337777775a0&page=${this.state.page - 1}&pageSize=${this.props.pageSize}`;
       this.setState({loading:true});
       let data = await fetch(url);
+      this.props.setProgress(30);
       let parsedData = await data.json();
+      this.props.setProgress(50);
       console.log(parsedData);
 
       this.setState({
@@ -57,16 +63,20 @@ export class News extends Component {
         articles: parsedData.articles,
         loading : false,
       })
+      this.props.setProgress(100);
 
     }
 
     handleNextClick = async () => {
 
       if(!(this.state.page + 1 > Math.ceil(this.state.totalResults/this.props.pageSize))){
+        this.props.setProgress(10);
       let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=ead939c27d884beb8d2c3337777775a0&page=${this.state.page + 1}&pageSize=${this.props.pageSize}`;
       this.setState({loading:true});
       let data = await fetch(url);
+      this.props.setProgress(30);
       let parsedData = await data.json();
+      this.props.setProgress(50);
       console.log(parsedData);
 
       this.setState({
@@ -74,6 +84,7 @@ export class News extends Component {
         articles: parsedData.articles,
         loading : false,
       })
+      this.props.setProgress(100);
     }
 
     }
